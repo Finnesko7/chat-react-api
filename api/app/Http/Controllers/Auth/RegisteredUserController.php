@@ -7,9 +7,8 @@ use App\Domain\ChatModule\EntryPoint\RegisterChatUser\RegisterChatUserParameters
 use App\Domain\ChatModule\User\Exception\ChatUserAlreadyExistsException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -41,6 +40,7 @@ class RegisteredUserController extends Controller
      *
      * @param Request $request
      *
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function store(Request $request)
@@ -55,6 +55,7 @@ class RegisteredUserController extends Controller
 
         try {
             DB::transaction(static function() use ($request, &$token) {
+                /** @var User $user */
                 $user = User::create([
                     'name' => $request->name,
                     'email' => $request->email,
@@ -65,7 +66,7 @@ class RegisteredUserController extends Controller
                     $user->name,
                 );
 
-                $token = $user->createToken('test');
+                $token = $user->createToken('auth-token');
 
                 self::$registerChatUserAction->run($registerChatUserParameters);
                 event(new Registered($user));

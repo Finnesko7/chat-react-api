@@ -19,13 +19,11 @@ Route::get('/api', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::prefix('/api')->group(function () {
-        Route::get('/chats', [ChatController::class, 'list'])->name('chats');
-        Route::get('/chats/room/{roomId}', [ChatController::class, 'room'])->name('room');
-        Route::post('/chat/room/create', [ChatController::class, 'create']);
-        Route::post('/message/send', [MessageController::class, 'send']);
-    });
+Route::prefix('/api')->group(function () {
+    Route::get('/chats', [ChatController::class, 'list'])->name('chats');
+    Route::get('/chats/room/{roomId}', [ChatController::class, 'room'])->name('room');
+    Route::post('/chat/room/create', [ChatController::class, 'create']);
+    Route::post('/message/send', [MessageController::class, 'send']);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
