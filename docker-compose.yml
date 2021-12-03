@@ -32,7 +32,7 @@ services:
       - MYSQL_PASSWORD=${DB_PASSWORD}
     volumes:
       - "mysqldata:/var/lib/mysql/"
-    ports:g
+    ports:
       - 3306:3306
 
 volumes:
