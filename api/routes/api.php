@@ -19,10 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('/get-info', [\App\Http\Controllers\ApiChat\ApiChatController::class, 'info']);
+   //code ...
 });
 
-//Route::get('/get-info', [\App\Http\Controllers\ApiChat\ApiChatController::class, 'info']);
 
 
 

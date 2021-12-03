@@ -19,8 +19,13 @@ use Symfony\Component\Serializer\Serializer;
 class MessageController extends Controller
 {
     private SendMessageAction $sendMessageAction;
+
     private Serializer $serializer;
 
+    /**
+     * @param SendMessageAction $sendMessageAction
+     * @param Serializer $serializer
+     */
     public function __construct(
         SendMessageAction $sendMessageAction,
         Serializer $serializer
@@ -29,24 +34,40 @@ class MessageController extends Controller
         $this->serializer = $serializer;
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function send(Request $request): Response
     {
+        $roomId = (int) $request->input('roomId', 0);
+        $userId = (int) Auth::id();
+        $text = $request->input('text', '');
+
         try {
-            $sendMessageParameters = new SendMessageParameters(
-                (int) $request->input('roomId', 0),
-                (int) Auth::id(),
-                $request->input('text', ''),
-            );
+            $sendMessageParameters = new SendMessageParameters($roomId, $userId, $text);
+
             $message = $this->sendMessageAction->run($sendMessageParameters);
+
             $response = new JsonResponse($this->serializer->normalize($message), Response::HTTP_CREATED);
         } catch (\Throwable $exception) {
-            $statusCode = $exception instanceof AppException ||
-            $exception instanceof BusinessLogicException ||
-            $exception instanceof ValidationException
-                ? Response::HTTP_BAD_REQUEST : Response::HTTP_INTERNAL_SERVER_ERROR;
+            $statusCode = $this->retrieveStatusCode($exception);
+
             $response = new JsonResponse(['errors' => [$exception->getMessage()]], $statusCode);
         }
 
         return $response;
+    }
+
+    /**
+     * @param \Throwable $exception
+     * @return int
+     */
+    private function retrieveStatusCode(\Throwable $exception): int
+    {
+        return $exception instanceof AppException ||
+        $exception instanceof BusinessLogicException ||
+        $exception instanceof ValidationException
+            ? Response::HTTP_BAD_REQUEST : Response::HTTP_INTERNAL_SERVER_ERROR;
     }
 }

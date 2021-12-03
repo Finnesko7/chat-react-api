@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace App\Domain\ChatModule\EntryPoint\RoomMessagesList;
 
@@ -11,6 +9,10 @@ class RoomMessagesListQuery
 {
     private const MASSAGE_NUMBER_IN_ROOM_VIEW = 50;
 
+    /**
+     * @param RoomId $roomId
+     * @return MessageInfoCollection
+     */
     public function run(RoomId $roomId): MessageInfoCollection
     {
         $messagesData = DB::table('chat_messages')
@@ -20,7 +22,9 @@ class RoomMessagesListQuery
             ->orderBy('chat_messages.sent_time')
             ->limit(self::MASSAGE_NUMBER_IN_ROOM_VIEW)
             ->get();
+
         $messagesInfo = new MessageInfoCollection();
+
         foreach ($messagesData as $messageData) {
             $messageInfo = new MessageInfo(
                 $messageData->nickname,

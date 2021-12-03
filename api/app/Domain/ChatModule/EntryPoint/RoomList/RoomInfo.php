@@ -10,6 +10,11 @@ class RoomInfo
     private string $roomName;
     private string $lastMessageTime;
 
+    /**
+     * @param int $roomId
+     * @param string $roomName
+     * @param string $lastMessageTime
+     */
     public function __construct(int $roomId, string $roomName, string $lastMessageTime)
     {
         $this->roomId = $roomId;
