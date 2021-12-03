@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Chat\ChatController;
+use App\Http\Controllers\Chat\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-   //code ...
+    Route::post('/message/send', [MessageController::class, 'send']);
 });
 
-
+Route::get('/chats/room/{roomId}', [ChatController::class, 'room'])->name('room');
+Route::post('/chat/room/create', [ChatController::class, 'create']);
+Route::get('/chats', [ChatController::class, 'list'])->name('chats');
 
 
 
