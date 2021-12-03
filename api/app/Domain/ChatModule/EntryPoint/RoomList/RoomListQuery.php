@@ -10,6 +10,9 @@ class RoomListQuery
 {
     private const MESSAGES_NOT_SEND_YET = '-';
 
+    /**
+     * @return RoomInfoCollection
+     */
     public function run(): RoomInfoCollection
     {
         $roomsData = DB::table('chat_rooms')
@@ -17,7 +20,9 @@ class RoomListQuery
             ->select('chat_rooms.*', DB::raw('MAX(sent_time) as lastMessageSentTime'))
             ->groupBy('chat_rooms.id')
             ->get();
+
         $roomsInfo = new RoomInfoCollection();
+
         foreach ($roomsData as $roomData) {
             $roomInfo = new RoomInfo(
                 $roomData->id,
