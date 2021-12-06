@@ -7,6 +7,23 @@ services:
     working_dir: /app
     volumes:
       - ./api:/app
+    depends_on:
+      - redis
+
+  echo:
+    image: node:16-alpine
+    env_file: .env
+    working_dir: /app
+    volumes:
+      - ./api/:/app
+    command: >
+      sh -c "npm install &&
+      npm install -g laravel-echo-server &&
+      laravel-echo-server start --force"
+    ports:
+      - 6001:6001
+    depends_on:
+      - redis
 
   nginx:
     image: nginx:latest
@@ -34,6 +51,11 @@ services:
       - "mysqldata:/var/lib/mysql/"
     ports:
       - 3306:3306
+
+  redis:
+    image: redis:6.0
+    ports:
+      - "6379:6379"
 
 volumes:
   mysqldata:

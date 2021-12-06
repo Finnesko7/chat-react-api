@@ -47,19 +47,25 @@ class SendMessageAction
         $senderId = UserId::make($sendMessageParameters->getUserId());
         $text = Text::make($sendMessageParameters->getText());
         $sender = $this->chatUserRepository->findByUserId($senderId);
+
         if (is_null($sender)) {
             throw ChatUserNotFoundException::withUserId($senderId);
         }
+
         $room = $this->roomRepository->findById($roomId);
+
         if (is_null($room)) {
             throw RoomNotFoundException::withId($roomId);
         }
+
         $message = $this->messageRepository->save(new Message($roomId, $sender->getId(), $text));
+
         $messageInfo = new MessageInfo(
             $sender->getNickname()->get(),
             $text->get(),
             $message->getSendTime()->format('Y-m-d H:i:s'),
         );
+
         MessageWasSend::dispatch($roomId->get(), $messageInfo->getAuthorName(), $messageInfo->getText(), $messageInfo->getSendTime());
 
         return $messageInfo;
