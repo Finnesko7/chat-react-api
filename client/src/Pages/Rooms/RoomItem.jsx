@@ -6,7 +6,7 @@ function ImageIcon() {
     return null;
 }
 
-const ItemRoom = ({ name, id}) => {
+const RoomItem = ({ name, id}) => {
     const navigate = useNavigate();
 
     const redirectToChat = () => {
@@ -29,4 +29,4 @@ const ItemRoom = ({ name, id}) => {
     );
 }
 
-export default ItemRoom;
+export default RoomItem;

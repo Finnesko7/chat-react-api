@@ -7,9 +7,9 @@ import {
     Typography
 } from "@mui/material";
 import axios from "axios";
-import ItemRoom from "./ItemRoom";
+import RoomItem from "./RoomItem";
 
-const ListRooms = () => {
+const RoomList = () => {
 
     const [rooms, setRooms] = useState([]);
 
@@ -26,14 +26,14 @@ const ListRooms = () => {
 
     return (
         <>
-            <Box sx={{padding: 2 }}>
+            <Box sx={{padding: 2 , width: 600}}>
                 <TextField placeholder="Name of room" />
                 <Button size="medium" variant="contained" sx={{padding: 2, ml: 5}}>Create room</Button>
             </Box>
             <Box sx={{width: 600, maxHeight: 500}}>
                 <Typography variant="h6"> Select room</Typography>
                 <List sx={{ width: '100%', maxWidth: 500 }}>
-                    {rooms.map((room) => <ItemRoom key={room.id} id={room.id} name={room.name} />)}
+                    {rooms.map((room) => <RoomItem key={room.id} id={room.id} name={room.name} />)}
                 </List>
             </Box>
         </>
@@ -41,4 +41,4 @@ const ListRooms = () => {
     )
 }
 
-export default ListRooms;
+export default RoomList;
