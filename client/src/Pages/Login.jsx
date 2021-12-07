@@ -25,7 +25,7 @@ const Login = () => {
     const [login, setLogin] = useState('');
     const [pass, setPass] = useState('');
     const [, setCookie] = useCookies(['Authorization']);
-    const [rediret, setRedirect] = useState(false);
+    const [redirect, setRedirect] = useState(false);
 
     const handleChangeLogin = (e) => {
         setLogin(e.target.value);
@@ -55,7 +55,7 @@ const Login = () => {
     }
 
     return (
-        rediret === true ? <Navigate to="/rooms"/> :
+        redirect === true ? <Navigate to="/rooms"/> :
 
             <div>
                 <ThemeProvider theme={theme}>

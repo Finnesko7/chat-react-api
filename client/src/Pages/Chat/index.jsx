@@ -1,9 +1,9 @@
 import React from "react";
-import {Box, Button, Grid, TextField} from "@material-ui/core";
-import SendIcon from '@mui/icons-material/Send';
+import {Box, Grid} from "@material-ui/core";
 import UserList from "./UserList";
 import MessageList from "./MessageList";
 import {useParams} from "react-router-dom";
+import Sender from "./Sender";
 
 const Chat = () => {
 
@@ -21,25 +21,7 @@ const Chat = () => {
                 <Grid item xs={2} style={{height:'100%'}} >
                     <UserList/>
                 </Grid>
-                <Grid item xs={10} style={{marginBottom: 0, paddingTop: 5, paddingLeft: 20, paddingRight: 20}} >
-                    <TextField
-                        fullWidth={true}
-                        id="standard-basic"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={2}>
-                    <div>
-                        <Button
-                            fullWidth={true}
-                            variant="contained"
-                            endIcon={<SendIcon />}
-                            color={"primary"}
-                        >
-                            Send
-                        </Button>
-                    </div>
-                </Grid>
+                <Sender/>
             </Grid>
         </Box>
     );
