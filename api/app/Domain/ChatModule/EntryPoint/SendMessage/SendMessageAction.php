@@ -66,7 +66,13 @@ class SendMessageAction
             $message->getSendTime()->format('Y-m-d H:i:s'),
         );
 
-        MessageWasSend::dispatch($roomId->get(), $messageInfo->getAuthorName(), $messageInfo->getText(), $messageInfo->getSendTime());
+        MessageWasSend::dispatch(
+            $roomId->get(),
+            $messageInfo->getAuthorName(),
+            $messageInfo->getText(),
+            $messageInfo->getSendTime(),
+            $senderId->get()
+        );
 
         return $messageInfo;
     }

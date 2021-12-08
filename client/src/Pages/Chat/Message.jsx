@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
@@ -6,13 +6,17 @@ import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
-const Message = ({message}) => {
+const Message = ({message, currentUserId}) => {
 
-    const senderMessageColor = '#70c9e7'
+    const messageColor = useRef('inherit');
+
+    if (message.authorId === currentUserId) {
+        messageColor.current = '#70c9e7';
+    }
 
     return (
         <>
-            <ListItem alignItems="flex-start" sx={{bgcolor: 'inherit'}}>
+            <ListItem alignItems="flex-start" sx={{bgcolor: messageColor.current}}>
                 <ListItemAvatar>
                     <Avatar alt={message.author} src="none.jpg"/>
                 </ListItemAvatar>

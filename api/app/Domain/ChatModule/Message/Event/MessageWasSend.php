@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Domain\ChatModule\Message\Event;
 
@@ -16,15 +14,23 @@ class MessageWasSend implements ShouldBroadcast
 
     public int $roomId;
     public string $author;
-    public string $message;
+    public string $text;
     public string $sendTime;
+    public int $authorId;
 
-    public function __construct(int $roomId, string $author, string $message, string $sendTime)
+    public function __construct(
+        int    $roomId,
+        string $author,
+        string $message,
+        string $sendTime,
+        int $authorId
+    )
     {
         $this->roomId = $roomId;
         $this->author = $author;
-        $this->message = $message;
         $this->sendTime = $sendTime;
+        $this->text = $message;
+        $this->authorId = $authorId;
         $this->dontBroadcastToCurrentUser();
     }
 

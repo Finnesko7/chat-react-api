@@ -1,16 +1,50 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {Button, Grid, TextField} from "@material-ui/core";
 import SendIcon from "@mui/icons-material/Send";
+import {ChatContext} from "../../reducers/ChatReducer";
+import {useCookies} from "react-cookie";
+import axios from "axios";
+import echo from "../../Services/SocketService/index";
 
-const Sender = () => {
-    const [message, setMessage] = useState('');
+const Sender = ({roomId}) => {
+    const [text, setText] = useState('');
+    const {chatDispatch} = useContext(ChatContext);
+    const [cookies] = useCookies();
 
     const handleChangeMessage = (e) => {
-        setMessage(e.target.value);
+        setText(e.target.value);
     };
 
     const sendMessage = () => {
-        console.log('message send', message);
+        axios.post('/api/message/send', {
+            roomId,
+            text
+        }, {
+            headers: {
+                'Authorization': `Bearer ${cookies.Authorization}`,
+                'X-Socket-Id':  echo.socketId()
+            }
+        }).then(function (response) {
+            pushMessageToStore(response.data.authorName, response.data.text, response.data.sendTime);
+
+            setText('');
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    const pushMessageToStore = (author, text, sendTime) => {
+        chatDispatch({
+            type: 'push_message',
+            payload: {
+                message: {
+                    authorId: cookies.userId,
+                    author,
+                    text,
+                    sendTime
+                }
+            }
+        });
     }
 
     return (
@@ -21,6 +55,7 @@ const Sender = () => {
                     id="standard-basic"
                     variant="standard"
                     onChange={handleChangeMessage}
+                    value={text}
                 />
             </Grid>
             <Grid item xs={2}>

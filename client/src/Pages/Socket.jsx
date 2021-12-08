@@ -19,15 +19,15 @@ const Socket = () => {
     useEffect(() => {
         window.echo.channel('laravel_database_notification.1')
             .listen('.message.send', (message) => {
-                console.log('join to channel ');
-
                 console.log('log socket message =>', message);
             }).error(error => console.log('error to join channel', error))
             .subscribed(subscribe => console.log('subscribe', subscribe));
     });
 
     return (
-        <></>
+        <>
+            Test page
+        </>
     )
 }
 
