@@ -28,22 +28,23 @@ const MessageList = ({roomId}) => {
 
         // If we received message , then push it to state (chatState)
         subscribeToChat(roomId, (message) => {
-            chatDispatch({type: 'push_message',payload: {message}});
+            chatDispatch({type: 'push_message', payload: {message}});
         });
-
-    }, [roomId]);
+        // eslint-disable-next-line
+    }, [roomId, chatDispatch]);
 
 
     useEffect(() => {
         if (chatState.init === false) {
             setMessages([...messages, chatState.message]);
         }
-    }, [chatState.message]);
+        // eslint-disable-next-line
+    }, [chatState.message, chatState.init]);
 
     return (
-        <List sx={{ width: '100%', maxWidth: '100%', bgcolor: '#f0f3f4' }}>
+        <List sx={{width: '100%', maxWidth: '100%', bgcolor: '#f0f3f4'}}>
             {messages && messages.map((message, index) =>
-                <Message key={index} message={message} currentUserId={cookies.userId}/>) }
+                <Message key={index} message={message} currentUserId={cookies.userId}/>)}
         </List>
     );
 }
