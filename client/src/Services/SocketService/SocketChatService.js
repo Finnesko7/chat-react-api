@@ -1,11 +1,11 @@
 import echo from "./index";
 
-const channelName = "laravel_database_notification";
-
+const channelName = "notification";
 
 export const subscribeToChat = (roomId, cb) => {
-    echo.listen(`${channelName}.${roomId}`,
-        '.message.send', (message) => cb(message));
+    echo.join(`${channelName}.${roomId}`)
+        .joining(user => console.log('join user', user))
+        .listen('.message.send', (message) => cb(message));
 }
 
 export const leaveChat = () => {

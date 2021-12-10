@@ -4,6 +4,7 @@ namespace App\Domain\ChatModule\Message\Event;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -36,7 +37,7 @@ class MessageWasSend implements ShouldBroadcast
 
     public function broadcastOn(): Channel
     {
-        return new Channel('notification.' . $this->roomId);
+        return new PresenceChannel('notification.' . $this->roomId);
     }
 
     public function broadcastAs(): string

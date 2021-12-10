@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -13,6 +14,14 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('notification.{roomId}', function () {
-    return true;
+Broadcast::channel('notification.{roomId}', function ($user) {
+    /** @var $user User */
+    if ($user) {
+        return [
+            'id' => $user->id,
+            'name' => $user->name
+        ];
+    }
+
+    return false;
 });
