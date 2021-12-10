@@ -4,7 +4,6 @@ import SendIcon from "@mui/icons-material/Send";
 import {ChatContext} from "../../reducers/ChatReducer";
 import {useCookies} from "react-cookie";
 import axios from "axios";
-import echo from "../../Services/SocketService/index";
 
 const Sender = ({roomId}) => {
     const [text, setText] = useState('');
@@ -22,7 +21,7 @@ const Sender = ({roomId}) => {
         }, {
             headers: {
                 'Authorization': `Bearer ${cookies.Authorization}`,
-                'X-Socket-Id':  echo.socketId()
+                // 'X-Socket-Id':  echo.socketId()
             }
         }).then(function (response) {
             pushMessageToStore(response.data.authorName, response.data.text, response.data.sendTime);

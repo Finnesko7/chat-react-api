@@ -1,6 +1,5 @@
 import React from "react";
-import {Avatar, List, ListItem, ListItemAvatar, ListItemText, ListSubheader} from "@material-ui/core";
-import ImageIcon from '@mui/icons-material/Image';
+import {List, ListSubheader} from "@material-ui/core";
 import UserItem from "./UserItem";
 
 const UserList = ({users}) => {

@@ -1,12 +1,12 @@
-import React, {useEffect, useReducer, useState} from "react";
+import React, {useReducer} from "react";
 import {Box, Grid} from "@material-ui/core";
 import UserList from "./UserList";
 import MessageList from "./MessageList";
 import {useParams} from "react-router-dom";
 import Sender from "./Sender";
 import {initChatState, ChatReducer, ChatContext} from "../../reducers/ChatReducer";
-import {useChat} from "../../Hooks/useSocket";
-import axios from "axios";
+import {useChat} from "../../Hooks/useChat";
+
 
 
 const Chat = () => {
